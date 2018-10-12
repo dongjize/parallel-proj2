@@ -3,4 +3,4 @@ project(proj2)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(proj2 main.cpp ObjectParticle.cpp ObjectParticle.h)
+add_executable(proj2 main.cu test.cu sobel_filter.cuh timer.h)
