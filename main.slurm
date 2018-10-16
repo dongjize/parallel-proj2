@@ -11,10 +11,11 @@ module load CUDA/8.0.44-GCC-4.9.2
 module load GMP/6.1.1-GCC-4.9.2
 
 # Compile .c file
-make cpu
+make cuda
 
 # Compile .cu file
 # nvcc main.cu -o main_gpu
 
 # Execute the programs
-./rsa_cpu 256-keys.txt
+# ./rsa_cpu 256-keys.txt
+./rsa_cuda 256-keys.txt
