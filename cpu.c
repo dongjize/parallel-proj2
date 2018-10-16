@@ -58,7 +58,6 @@ int main(int argc, char *argv[]) {
     int numKeys = readFile(argv[1], &numbers, &res);
 
     //Lets gcd
-    printf("%s\n", "gmpGCDs");
     gmpGCDs(numbers, numKeys, res);
 
     writeFiles("privateKeys", numKeys, numbers, res);
