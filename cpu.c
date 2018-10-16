@@ -1,10 +1,11 @@
-#include <gmp.h>
 #include <inttypes.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <gmp.h>
 
 #include "common.h"
+
 
 void shiftL1(bigInt num[]);
 
@@ -57,12 +58,8 @@ int main(int argc, char *argv[]) {
     int numKeys = readFile(argv[1], &numbers, &res);
 
     //Lets gcd
-#ifdef GMP
+    printf("%s\n", "gmpGCDs");
     gmpGCDs(numbers, numKeys, res);
-#else
-    for (int offset = 0; offset < numKeys; offset += WORK_SIZE)
-        findGCDs(numbers, numKeys, res, offset);
-#endif
 
     writeFiles("privateKeys", numKeys, numbers, res);
 

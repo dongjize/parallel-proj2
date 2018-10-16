@@ -1,8 +1,8 @@
 #ifndef COMMON_H
 #define COMMON_H
 
-#include <gmp.h>
 #include <inttypes.h>
+#include <gmp.h>
 
 typedef uint64_t bigInt;
 
