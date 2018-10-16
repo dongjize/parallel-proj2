@@ -19,11 +19,8 @@ cuda:
 cpu:
 	gcc -O3 cpu.c common.c -std=c99 -lgmp -o rsa_cpu
 
-cpu_gmp: $(CPUFILES) $(COMMON)
-	gcc $(CCFLAGS) -o rsa_cpu $^ -DGMP -L$(LIBPATH) -I$(INCPATH) $(LDFLAGS) -Wl,-rpath=$(LIBPATH)
-
-cpuHome: $(CPUFILES) $(COMMON)
-	gcc $(CCFLAGS) -o rsa_cpu $^ $(LDFLAGS)
+cpu_gmp:
+	gcc -O3 cpu.c common.c -std=c99 -DGMP -lgmp -o rsa_cpu
 
 clean:
 	rm -f *.o rsa_cuda rsa_cpu

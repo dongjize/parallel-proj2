@@ -10,8 +10,8 @@ module load GCC/4.9.2
 module load CUDA/8.0.44-GCC-4.9.2
 module load GMP/6.1.1-GCC-4.9.2
 
+make cpu_gmp
 make cuda
-make cpu
 
 # Execute the programs
 ./rsa_cpu 256-keys.txt
