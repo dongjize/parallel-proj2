@@ -68,13 +68,8 @@ __device__ void slow_gcd(bigInt num1[], bigInt num2[]) {
     }
 }
 
-// Binary GCD algorithm
-// requires num1 > 0 and num2 > 0
-// sets either num1 or num2 to the 1 if gcd == 1 or some number >1 if gcd >1 and
-// returns the pointer to whichever num was set
-__device__ bigInt
-*
-gcd(bigInt
+
+__device__ bigInt *gcd(bigInt
 *num1,
 bigInt *num2
 ) {
@@ -113,42 +108,50 @@ return
 num1;
 }
 
-__device__ bool greaterOne(bigInt * num) {
-    for (int i = 0; i < SIZE; i++)
-        if (i ? num[i] : num[i] > 1)
-            return true;
-    return false;
+__device__ bool
+greaterOne(bigInt
+* num) {
+for (
+int i = 0;
+i < SIZE; i++)
+if (i ? num[i] : num[i] > 1)
+return
+true;
+return
+false;
 }
 
 // count is the number of big nums in nums
 // res represents a 2 dimensional matrix with at least count bits for each side
 // should have count number of threads running, each responsible for 1 row/col
 // res will be return as a top diagonal matrix
-__global__ void findGCDs(bigInt * nums, int
+__global__ void findGCDs(bigInt *nums, int
 count,
-char *res,
-int offset
+                         char *res,
+                         int offset
 ) {
-int ndx = blockIdx.x * blockDim.x + threadIdx.x; // == offset in bits
-int resOff = ndx * (1 + ((count - 1) / 8));
+    int ndx = blockIdx.x * blockDim.x + threadIdx.x; // == offset in bits
+    int resOff = ndx * (1 + ((count - 1) / 8));
 
-bigInt cur[SIZE];
-bigInt other[SIZE];
+    bigInt
+    cur[SIZE];
+    bigInt
+    other[SIZE];
 
 // do calc
-int i = ndx + offset + 1;
-int limit = min(i + WORK_SIZE, count);
-for (;
-i<limit;
-i++) {
-memcpy(cur, nums
-+ ndx * SIZE, SIZE_BYTES);
-memcpy(other, nums
-+ i * SIZE, SIZE_BYTES);
+    int i = ndx + offset + 1;
+    int limit = min(i + WORK_SIZE, count);
+    for (;
+            i < limit;
+            i++) {
+        memcpy(cur, nums
+                    + ndx * SIZE, SIZE_BYTES);
+        memcpy(other, nums
+                      + i * SIZE, SIZE_BYTES);
 
-if (
-greaterOne(gcd(cur, other)
-))
-res[resOff + i / 8] |= 1 << (i % 8);
-}
+        if (
+                greaterOne(gcd(cur, other)
+                ))
+            res[resOff + i / 8] |= 1 << (i % 8);
+    }
 }

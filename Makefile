@@ -10,14 +10,14 @@ LDFLAGS=-lgmp
 LIBPATH=/home/clupo/gmp/lib
 INCPATH=/home/clupo/gmp/include
 
-cuda: $(COMMON) $(CUDAOBJS)
-	g++ -O3 -o rsa_cuda $^ -lcuda -lcudart -lgmp
+cuda:
+	g++ -O3 common.c gcd.o crackRSA.o -o rsa_cuda $^ -lcuda -lcudart -lgmp
 
 %.o: %.cu
-	nvcc -c -O3 -g -gencode arch=compute_20,code=sm_20 -gencode arch=compute_30,code=sm_30 -gencode arch=compute_35,code=sm_35 -lgmp -Wl,
+	nvcc -c -O3 -g -gencode arch=compute_20,code=sm_20 -gencode arch=compute_30,code=sm_30 -gencode arch=compute_35,code=sm_35 -lgmp
 
 cpu:
-	gcc cpu.c common.c -O3 -std=c99 -lgmp -o rsa_cpu
+	gcc -O3 cpu.c common.c -std=c99 -lgmp -o rsa_cpu
 
 cpu_gmp: $(CPUFILES) $(COMMON)
 	gcc $(CCFLAGS) -o rsa_cpu $^ -DGMP -L$(LIBPATH) -I$(INCPATH) $(LDFLAGS) -Wl,-rpath=$(LIBPATH)
@@ -25,6 +25,5 @@ cpu_gmp: $(CPUFILES) $(COMMON)
 cpuHome: $(CPUFILES) $(COMMON)
 	gcc $(CCFLAGS) -o rsa_cpu $^ $(LDFLAGS)
 
-clean: 
+clean:
 	rm -f *.o rsa_cuda rsa_cpu
-

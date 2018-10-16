@@ -12,7 +12,7 @@ void shiftR1(bigInt num[]);
 
 int cmp(bigInt num1[], bigInt num2[]);
 
-void Substract(bigInt num1[], bigInt num2[]);
+void subtract(bigInt num1[], bigInt num2[]);
 
 void slow_gcd(bigInt num1[], bigInt num2[]);
 
@@ -112,7 +112,7 @@ int cmp(bigInt num1[], bigInt num2[]) {
 }
 
 // requires that num1 >= num2, num1 -= num2
-void Subtract(bigInt num1[], bigInt num2[]) {
+void subtract(bigInt num1[], bigInt num2[]) {
     for (int i = 0; i < SIZE; i++) {
         if (num2[i] == min(num1[i], num2[i])) {
             // normal subtraction
@@ -134,9 +134,9 @@ void slow_gcd(bigInt num1[], bigInt num2[]) {
     int compare;
     while ((compare = cmp(num1, num2)) != EQ) {
         if (compare == GT)
-            Subtract(num1, num2);
+            subtract(num1, num2);
         else
-            Subtract(num2, num1);
+            subtract(num2, num1);
     }
 }
 
@@ -167,7 +167,7 @@ bigInt *gcd(bigInt *num1, bigInt *num2) {
             num1 = num2;
             num2 = t;
         }
-        Subtract(num2, num1);
+        subtract(num2, num1);
     } while (1);
 
     if (shift)
