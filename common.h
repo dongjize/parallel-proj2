@@ -21,7 +21,7 @@ typedef uint64_t bigInt;
 
 int readFile(const char *fileName, bigInt **numbers, char **res);
 
-void computePrivate(mpz_t pb1, mpz_t pb2, mpz_t *pk1, mpz_t *pk2);
+void computePrivate(mpz_t N1, mpz_t pb2, mpz_t *pk1, mpz_t *pk2);
 
 void writeFiles(const char *privateFile, int numKeys, bigInt *keys, char *res);
 
