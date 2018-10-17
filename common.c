@@ -48,9 +48,9 @@ void computePrivate(mpz_t N1, mpz_t N2, mpz_t *d1, mpz_t *d2) {
     mpz_t p, q1, q2, e, t1, t2, tc, phi1, phi2;
     mpz_inits(p, q1, q2, e, t1, t2, tc, phi1, phi2, NULL);
 
-    mpz_gcd(p, N1, N2); // p := gcd (pb1, pb2)
-    mpz_cdiv_q(q1, N1, p); // q1 = n / p
-    mpz_cdiv_q(q2, N2, p); // q2 = n / p
+    mpz_gcd(p, N1, N2); // p := gcd (N1, N2)
+    mpz_cdiv_q(q1, N1, p); // q1 = N1 / p
+    mpz_cdiv_q(q2, N2, p); // q2 = N2 / p
 
     mpz_sub_ui(t1, q1, 1); // t1 = q1 - 1
     mpz_sub_ui(t2, q2, 1); // t2 = q2 - 1
