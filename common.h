@@ -15,9 +15,9 @@ typedef uint64_t bigInt;
 #define WORK_BYTES 16
 #define WORK_SIZE (WORK_BYTES * 8)
 
-#define EQ 0
-#define GT 1
-#define LT -1
+#define EQ 0 // equal
+#define GT 1 // greater than
+#define LT -1 // less than
 
 int readFile(const char *fileName, bigInt **numbers, char **res);
 

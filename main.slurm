@@ -14,5 +14,5 @@ make cpu_gmp
 make cuda
 
 # Execute the programs
-./rsa_cpu 256-keys.txt
-./rsa_cuda 256-keys.txt
+time ./rsa_cpu 256-keys.txt
+time ./rsa_cuda 256-keys.txt

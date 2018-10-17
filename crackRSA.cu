@@ -5,10 +5,15 @@
 #include "common.h"
 #include "gcd.h"
 
-//Main function to read keys from file and then matrix, yeah!
+/**
+ * Main function to read keys from file and then matrix
+ * @param argc
+ * @param argv
+ * @return
+ */
 int main(int argc, char *argv[]) {
     char *res, *cudaRes;
-    bigInt *numbers, *cudaNums;
+    bitInt *numbers, *cudaNums;
 
     if (argc != 2) {
         printf("error, syntax is %s <file name>\n", argv[0]);

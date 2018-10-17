@@ -45,7 +45,12 @@ bigInt min(bigInt a, bigInt b) {
     return a < b ? a : b;
 }
 
-//Main function to read keys from file and then matrix, yeah!
+/**
+ * Main function to read keys from file and then matrix
+ * @param argc
+ * @param argv
+ * @return
+ */
 int main(int argc, char *argv[]) {
     char *res;
     bigInt *numbers;
@@ -57,7 +62,13 @@ int main(int argc, char *argv[]) {
 
     int numKeys = readFile(argv[1], &numbers, &res);
 
+#ifdef GMP
     gmpGCDs(numbers, numKeys, res);
+#else
+    for (int offset = 0; offset < numKeys; offset += WORK_SIZE) {
+        findGCDs(numbers, numKeys, res, offset);
+    }
+#endif
 
     writeFiles("privateKeys", numKeys, numbers, res);
 
@@ -135,10 +146,13 @@ void slow_gcd(bigInt num1[], bigInt num2[]) {
     }
 }
 
-// Binary GCD algorithm
-// requires num1 > 0 and num2 > 0
-// sets either num1 or num2 to the 1 if gcd == 1 or some number >1 if gcd >1 and
-// returns the pointer to whichever num was set
+/**
+ * Binary GCD algorithm (num1 > 0 and num2 > 0)
+ * Sets either num1 or num2 to the 1 if gcd == 1 or some number >1 if gcd >1 and returns the pointer to whichever num was set
+ * @param num1
+ * @param num2
+ * @return
+ */
 bigInt *gcd(bigInt *num1, bigInt *num2) {
     int shift, compare;
 
@@ -178,10 +192,14 @@ int greaterOne(bigInt *num) {
     return 0;
 }
 
-// count is the number of big nums in nums
-// res represents a 2 dimensional matrix with at least count bits for each side
-// should have count number of threads running, each responsible for 1 row/col
-// res will be return as a top diagonal matrix
+/**
+ * should have count number of threads running, each responsible for 1 row/col
+ * res will be return as a top diagonal matrix
+ * @param nums
+ * @param count the number of big nums in nums
+ * @param res represents a 2 dimensional matrix with at least count bits for each side
+ * @param offset
+ */
 void findGCDs(bigInt *nums, int count, char *res, int offset) {
     bigInt cur[SIZE];
     bigInt other[SIZE];

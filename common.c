@@ -15,8 +15,9 @@ int readFile(const char *fileName, bigInt **numbers, char **res) {
     FILE *fp = fopen(fileName, "r");
 
     int numKeys = 0;
-    while (EOF != (fscanf(fp, "%*[^\n]"), fscanf(fp, "%*c")))
+    while (EOF != (fscanf(fp, "%*[^\n]"), fscanf(fp, "%*c"))) {
         ++numKeys;
+    }
 
     printf("%d keys\n", numKeys);
 
@@ -36,25 +37,34 @@ int readFile(const char *fileName, bigInt **numbers, char **res) {
     return numKeys;
 }
 
+/**
+ * Compute the private key
+ * @param pb1 public key 1
+ * @param pb2 public key 2
+ * @param pk1 private key 1
+ * @param pk2 private key 2
+ */
 void computePrivate(mpz_t pb1, mpz_t pb2, mpz_t *pk1, mpz_t *pk2) {
-    mpz_t common, q1, q2, e, t1, t2, tc, tot1, tot2;
-    mpz_inits(common, q1, q2, e, t1, t2, tc, tot1, tot2, NULL);
+    mpz_t common, q1, q2, e, t1, t2, tc, phi1, phi2;
+    mpz_inits(common, q1, q2, e, t1, t2, tc, phi1, phi2, NULL);
 
-    mpz_gcd(common, pb1, pb2);
-    mpz_cdiv_q(q1, pb1, common);
-    mpz_cdiv_q(q2, pb2, common);
+    mpz_gcd(common, pb1, pb2); // common := gcd (pb1, pb2)
+    mpz_cdiv_q(q1, pb1, common); // q1 = n / common
+    mpz_cdiv_q(q2, pb2, common); // q2 = n / common
 
-    mpz_sub_ui(t1, q1, 1);
-    mpz_sub_ui(t2, q2, 1);
-    mpz_sub_ui(tc, common, 1);
+    gmp_printf("%Zd\n", common);
 
-    mpz_mul(tot1, t1, tc);
-    mpz_mul(tot2, t2, tc);
+    mpz_sub_ui(t1, q1, 1); // t1 = q1 - 1
+    mpz_sub_ui(t2, q2, 1); // t2 = q2 - 1
+    mpz_sub_ui(tc, common, 1); // tc = common - 1
 
-    mpz_set_ui(e, 65537);
+    mpz_mul(phi1, t1, tc); // phi1 = t1 * tc
+    mpz_mul(phi2, t2, tc); // phi2 = t2 * tc
 
-    mpz_invert(*pk1, e, tot1);
-    mpz_invert(*pk2, e, tot2);
+    mpz_set_ui(e, 65537); // e = 65537
+
+    mpz_invert(*pk1, e, phi1); // compute the inverse d such that: d * e mod phi1 = 1
+    mpz_invert(*pk2, e, phi2); // compute the inverse d such that: d * e mod phi2 = 1
 }
 
 void writeFiles(const char *privateFile, int numKeys, bigInt *keys, char *res) {
