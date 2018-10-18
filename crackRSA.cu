@@ -13,7 +13,7 @@
  */
 int main(int argc, char *argv[]) {
     char *res, *cudaRes;
-    bitInt *numbers, *cudaNums;
+    bigInt *numbers, *cudaNums;
 
     if (argc != 2) {
         printf("error, syntax is %s <file name>\n", argv[0]);
@@ -35,11 +35,9 @@ int main(int argc, char *argv[]) {
 
     printf("%d blocks of size %d\n", dimGrid, dimBlock);
 
-    //Lets gcd
-//    for (int offset = 0; offset < numKeys; offset += WORK_SIZE) {
-//        findGCDs << < dimGrid, dimBlock >> > (cudaNums, numKeys, cudaRes, offset);
-//    }
-    gmpGCDs << < dimGrid, dimBlock >> > (cudaNums, numKeys, cudaRes);
+    for (int offset = 0; offset < numKeys; offset += WORK_SIZE) {
+        findGCDs << < dimGrid, dimBlock >> > (cudaNums, numKeys, cudaRes, offset);
+    }
 
     cudaMemcpy(res, cudaRes, numKeys * countBytes, cudaMemcpyDeviceToHost);
 

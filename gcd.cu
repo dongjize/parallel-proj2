@@ -153,19 +153,19 @@ __global__ void findGCDs(bigInt *nums, int count, char *res, int offset) {
 }
 
 
-__global__ void gmpGCDs(bigInt *nums, int count, char *res) {
-    mpz_t cur, other, g;
-    mpz_inits(cur, other, g, NULL);
-
-    for (int ndx = 0; ndx < count; ndx++) {
-        int resOff = ndx * (1 + ((count - 1) / 8));
-        mpz_import(cur, SIZE, -1, BIGINT_SIZE, -1, 0, nums + ndx * SIZE);
-
-        for (int i = ndx + 1; i < count; i++) {
-            mpz_import(other, SIZE, -1, BIGINT_SIZE, -1, 0, nums + i * SIZE);
-            mpz_gcd(g, cur, other);
-            if (mpz_cmp_ui(g, 1) > 0)
-                res[resOff + i / 8] |= 1 << (i % 8);
-        }
-    }
-}
+//__global__ void gmpGCDs(bigInt *nums, int count, char *res) {
+//    mpz_t cur, other, g;
+//    mpz_inits(cur, other, g, NULL);
+//
+//    for (int ndx = 0; ndx < count; ndx++) {
+//        int resOff = ndx * (1 + ((count - 1) / 8));
+//        mpz_import(cur, SIZE, -1, BIGINT_SIZE, -1, 0, nums + ndx * SIZE);
+//
+//        for (int i = ndx + 1; i < count; i++) {
+//            mpz_import(other, SIZE, -1, BIGINT_SIZE, -1, 0, nums + i * SIZE);
+//            mpz_gcd(g, cur, other);
+//            if (mpz_cmp_ui(g, 1) > 0)
+//                res[resOff + i / 8] |= 1 << (i % 8);
+//        }
+//    }
+//}
