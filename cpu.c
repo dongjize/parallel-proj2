@@ -15,12 +15,16 @@ int cmp(bigInt num1[], bigInt num2[]);
 
 void subtract(bigInt num1[], bigInt num2[]);
 
-void slow_gcd(bigInt num1[], bigInt num2[]);
-
 bigInt *gcd(bigInt *num1, bigInt *num2);
 
 void findGCDs(bigInt *nums, int count, char *res, int offset);
 
+/**
+ *
+ * @param nums
+ * @param count
+ * @param res
+ */
 void gmpGCDs(bigInt *nums, int count, char *res) {
     mpz_t cur, other, g;
     mpz_inits(cur, other, g, NULL);
@@ -29,12 +33,9 @@ void gmpGCDs(bigInt *nums, int count, char *res) {
         int resOff = ndx * (1 + ((count - 1) / 8));
         mpz_import(cur, SIZE, -1, BIGINT_SIZE, -1, 0, nums + ndx * SIZE);
 
-        // do calc
         for (int i = ndx + 1; i < count; i++) {
             mpz_import(other, SIZE, -1, BIGINT_SIZE, -1, 0, nums + i * SIZE);
-
             mpz_gcd(g, cur, other);
-
             if (mpz_cmp_ui(g, 1) > 0)
                 res[resOff + i / 8] |= 1 << (i % 8);
         }
@@ -135,17 +136,6 @@ void subtract(bigInt num1[], bigInt num2[]) {
     }
 }
 
-// eulers gcd algorithm without modulus
-void slow_gcd(bigInt num1[], bigInt num2[]) {
-    int compare;
-    while ((compare = cmp(num1, num2)) != EQ) {
-        if (compare == GT)
-            subtract(num1, num2);
-        else
-            subtract(num2, num1);
-    }
-}
-
 /**
  * Binary GCD algorithm (num1 > 0 and num2 > 0)
  * Sets either num1 or num2 to the 1 if gcd == 1 or some number >1 if gcd >1 and returns the pointer to whichever num was set
@@ -196,8 +186,8 @@ int greaterOne(bigInt *num) {
  * should have count number of threads running, each responsible for 1 row/col
  * res will be return as a top diagonal matrix
  * @param nums
- * @param count the number of big nums in nums
- * @param res represents a 2 dimensional matrix with at least count bits for each side
+ * @param count: the number of big nums in nums
+ * @param res: represents a 2 dimensional matrix with at least count bits for each side
  * @param offset
  */
 void findGCDs(bigInt *nums, int count, char *res, int offset) {

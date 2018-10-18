@@ -20,7 +20,7 @@ cpu:
 	gcc -O3 cpu.c common.c -std=c99 -lgmp -o rsa_cpu
 
 cpu_gmp:
-	gcc -O3 cpu.c common.c -std=c99 -DGMP -lgmp -o rsa_cpu
+	gcc -O3 cpu.c common.c -std=c99 -DGMP -lgmp -o rsa_cpu_gmp
 
 clean:
 	rm -f *.o rsa_cuda rsa_cpu

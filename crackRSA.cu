@@ -30,16 +30,16 @@ int main(int argc, char *argv[]) {
 
     cudaMemcpy(cudaNums, numbers, numSize, cudaMemcpyHostToDevice);
 
-    int dimBlock = SIZE * 2;
-    int dimGrid = 1 + ((numKeys - 1) / dimBlock);
+    int dimBlock = SIZE * 2; // the size of each block
+    int dimGrid = 1 + ((numKeys - 1) / dimBlock); // the number of blocks divided into on the GPU
 
     printf("%d blocks of size %d\n", dimGrid, dimBlock);
 
     //Lets gcd
-    for (int offset = 0; offset < numKeys; offset += WORK_SIZE) {
-        // <<<dimGrid, dimBlock>>>
-        findGCDs << < dimGrid, dimBlock >> > (cudaNums, numKeys, cudaRes, offset);
-    }
+//    for (int offset = 0; offset < numKeys; offset += WORK_SIZE) {
+//        findGCDs << < dimGrid, dimBlock >> > (cudaNums, numKeys, cudaRes, offset);
+//    }
+    gmpGCDs << < dimGrid, dimBlock >> > (cudaNums, numKeys, cudaRes);
 
     cudaMemcpy(res, cudaRes, numKeys * countBytes, cudaMemcpyDeviceToHost);
 

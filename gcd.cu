@@ -124,20 +124,22 @@ __device__ bool greaterOne(bigInt *num) {
     return false;
     }
 
-// count is the number of big nums in nums
-// res represents a 2 dimensional matrix with at least count bits for each side
-// should have count number of threads running, each responsible for 1 row/col
-// res will be return as a top diagonal matrix
+
+/**
+ * should have count number of threads running, each responsible for 1 row/col
+ * res will be return as a top diagonal matrix
+ * @param nums
+ * @param count: the number of big nums in nums
+ * @param res: represents a 2 dimensional matrix with at least count bits for each side
+ * @param offset
+ * @return
+ */
 __global__ void findGCDs(bigInt *nums, int count, char *res, int offset) {
     int ndx = blockIdx.x * blockDim.x + threadIdx.x; // == offset in bits
     int resOff = ndx * (1 + ((count - 1) / 8));
+    bigInt cur[SIZE];
+    bigInt other[SIZE];
 
-    bigInt
-    cur[SIZE];
-    bigInt
-    other[SIZE];
-
-// do calc
     int i = ndx + offset + 1;
     int limit = min(i + WORK_SIZE, count);
     for (; i < limit; i++) {
@@ -146,6 +148,24 @@ __global__ void findGCDs(bigInt *nums, int count, char *res, int offset) {
 
         if (greaterOne(gcd(cur, other))) {
             res[resOff + i / 8] |= 1 << (i % 8);
+        }
+    }
+}
+
+
+__global__ void gmpGCDs(bigInt *nums, int count, char *res) {
+    mpz_t cur, other, g;
+    mpz_inits(cur, other, g, NULL);
+
+    for (int ndx = 0; ndx < count; ndx++) {
+        int resOff = ndx * (1 + ((count - 1) / 8));
+        mpz_import(cur, SIZE, -1, BIGINT_SIZE, -1, 0, nums + ndx * SIZE);
+
+        for (int i = ndx + 1; i < count; i++) {
+            mpz_import(other, SIZE, -1, BIGINT_SIZE, -1, 0, nums + i * SIZE);
+            mpz_gcd(g, cur, other);
+            if (mpz_cmp_ui(g, 1) > 0)
+                res[resOff + i / 8] |= 1 << (i % 8);
         }
     }
 }

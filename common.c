@@ -11,7 +11,6 @@ int readFile(const char *fileName, bigInt **numbers, char **res) {
     mpz_t tempNum;
     mpz_init(tempNum);
 
-
     FILE *fp = fopen(fileName, "r");
 
     int numKeys = 0;
@@ -41,14 +40,14 @@ int readFile(const char *fileName, bigInt **numbers, char **res) {
  * Compute the private key
  * @param N1 N1 = p * q
  * @param N2 N2 = p * q
- * @param pk1 private key 1
- * @param pk2 private key 2
+ * @param d1 private key 1
+ * @param d2 private key 2
  */
 void computePrivate(mpz_t N1, mpz_t N2, mpz_t *d1, mpz_t *d2) {
     mpz_t p, q1, q2, e, t1, t2, tc, phi1, phi2;
     mpz_inits(p, q1, q2, e, t1, t2, tc, phi1, phi2, NULL);
 
-    mpz_gcd(p, N1, N2); // p := gcd (N1, N2)
+    mpz_gcd(p, N1, N2); // p = gcd (N1, N2)
     mpz_cdiv_q(q1, N1, p); // q1 = N1 / p
     mpz_cdiv_q(q2, N2, p); // q2 = N2 / p
 
