@@ -17,6 +17,3 @@ make integer.o
 make all
 time ./main ../4096-keys.txt 4096 cracked
 make clean
-
-
-
