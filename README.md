@@ -13,7 +13,6 @@
 
 # Load required modules
 module load GCC/4.9.2
-module load CUDA/8.0.44-GCC-4.9.2
 module load GMP/6.1.1-GCC-4.9.2
 
 
