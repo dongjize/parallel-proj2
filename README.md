@@ -7,8 +7,8 @@
 
 #SBATCH --time=02:00:00
 #SBATCH --partition physical
-#SBATCH --ntasks=1
 #SBATCH --nodes=1
+#SBATCH --ntasks=1
 #SBATCH --output=2048.out
 
 # Load required modules
