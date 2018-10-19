@@ -2,6 +2,8 @@
 ## To run on Spartan, use below slurm script:
 
 - Running on CPU, suppose n = 2048
+
+    cd into cpu/
 ```
 #!/bin/bash
 
@@ -25,6 +27,8 @@ time ./rsa_cpu_gmp ../2048-keys.txt
 make clean
 ```
 - Running on GPU, suppose n = 4096
+
+    cd into gpu/
 ```
 #!/bin/bash
 
