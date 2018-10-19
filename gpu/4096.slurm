@@ -11,16 +11,12 @@ module load CUDA/8.0.44-GCC-4.9.2
 module load GMP/6.1.1-GCC-4.9.2
 
 
-make cpu
-time ./rsa_cpu 4096-keys.txt
+make main.o
+make rsa.o
+make integer.o
+make all
+time ./main ../4096-keys.txt 4096 cracked
 make clean
 
-make cpu_gmp
-time ./rsa_cpu_gmp 4096-keys.txt
-make clean
 
-make gcd
-make crackRSA
-make cuda
-time ./rsa_cuda 4096-keys.txt
-make clean
+

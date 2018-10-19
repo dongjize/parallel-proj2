@@ -3,4 +3,4 @@ project(proj2)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(proj2 cpu.c)
+add_executable(proj2 cpu/cpu.c)
