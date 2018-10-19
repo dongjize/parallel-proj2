@@ -17,7 +17,6 @@
 module load GCC/4.9.2
 module load GMP/6.1.1-GCC-4.9.2
 
-
 # make cpu
 # time ./rsa_cpu ../2048-keys.txt
 # make clean
