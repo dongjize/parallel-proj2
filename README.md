@@ -1,7 +1,11 @@
 # parallel-proj2
-## To run on Spartan, use below slurm script:
+Jize Dong, Minsheng Wang
 
-- Running on CPU, suppose n = 2048
+## To run on Spartan, use below slurm scripts:
+
+- Running on CPU, suppose n = 2048. 
+
+    If testing other n (n could be 256, 2048, 4096 or 20K), just replace all 2048 with n
 
     cd into cpu/
 ```
@@ -26,6 +30,8 @@ time ./rsa_cpu_gmp ../2048-keys.txt
 make clean
 ```
 - Running on GPU, suppose n = 4096
+
+    If testing other n (n could be 256, 2048, 4096 or 20K), just replace all 4096 with n
 
     cd into gpu/
 ```
